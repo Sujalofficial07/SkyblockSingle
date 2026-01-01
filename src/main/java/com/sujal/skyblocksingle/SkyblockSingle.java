@@ -1,5 +1,6 @@
 package com.sujal.skyblocksingle;
 
+import com.sujal.skyblocksingle.collections.CollectionEvents;
 import com.sujal.skyblocksingle.commands.ModCommands;
 import com.sujal.skyblocksingle.skills.SkillEvents;
 import com.sujal.skyblocksingle.world.VoidChunkGenerator;
@@ -23,7 +24,8 @@ public class SkyblockSingle implements ModInitializer {
         Registry.register(Registries.CHUNK_GENERATOR, new Identifier(MOD_ID, "void"), VoidChunkGenerator.CODEC);
 
         ModCommands.register();
-        SkillEvents.register(); // <-- New Registration
+        SkillEvents.register();
+        CollectionEvents.register(); // <-- Registered Collection Events
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             IslandManager.onPlayerJoin(handler.getPlayer());
