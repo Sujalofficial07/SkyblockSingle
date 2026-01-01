@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "skyblocksingle",
+  "version": "${version}",
+  "name": "SkyblockSingle",
+  "description": "Offline Singleplayer Hypixel Skyblock Remake",
+  "authors": [
+    "Sujal"
+  ],
+  "contact": {
+    "homepage": "https://github.com/sujal/SkyblockSingle",
+    "sources": "https://github.com/sujal/SkyblockSingle"
+  },
+  "license": "MIT",
+  "icon": "assets/skyblocksingle/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.sujal.skyblocksingle.SkyblockSingle"
+    ]
+  },
+  "mixins": [
+    "skyblocksingle.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
