@@ -1,0 +1,4 @@
+// API specific dependencies (agar future mein chahiye hon)
+dependencies {
+    // API usually has no extra dependencies
+}
