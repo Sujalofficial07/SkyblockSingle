@@ -4,5 +4,9 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 rootProject.name = "hypixel-skyblock-fabric"
-include("skyblock-api", "skyblock-core", "skyblock-stats", "skyblock-items", "skyblock-ui")
+
+// Humare modules
+include("skyblock-api")
+include("skyblock-core")
