@@ -3,7 +3,8 @@
   "package": "com.sujal.skyblocksingle.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "WorldPresetMixin"
+    "WorldPresetMixin",
+    "ItemPickupMixin"
   ],
   "injectors": {
     "defaultRequire": 1
