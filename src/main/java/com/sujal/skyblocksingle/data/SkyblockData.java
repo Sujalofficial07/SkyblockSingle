@@ -21,9 +21,11 @@ public class SkyblockData extends PersistentState {
     public static SkyblockData getServerState(ServerWorld world) {
         ServerWorld serverWorld = world.getServer().getWorld(World.OVERWORLD);
         
-        // FIX: Used PersistentState.Type explicitly to fix compilation error
+        // FIX: Removed PersistentState.Type wrapper.
+        // Correct signature for 1.20.1: getOrCreate(Deserializer, Factory, ID)
         return serverWorld.getPersistentStateManager().getOrCreate(
-                new PersistentState.Type<>(SkyblockData::new, SkyblockData::createFromNbt, null),
+                SkyblockData::createFromNbt,
+                SkyblockData::new,
                 DATA_ID
         );
     }
