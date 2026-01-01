@@ -3,9 +3,10 @@ package com.sujal.skyblocksingle.world;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ChunkRegion;
 import net.minecraft.world.HeightLimitView;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.biome.source.BiomeAccess;
 import net.minecraft.world.biome.source.BiomeSource;
 import net.minecraft.world.chunk.Chunk;
@@ -23,7 +24,7 @@ import java.util.concurrent.Executor;
 public class VoidChunkGenerator extends ChunkGenerator {
     public static final Codec<VoidChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
             instance.group(BiomeSource.CODEC.fieldOf("biome_source")
-                    .forGetter((generator) -> generator.biomeSource)
+                    .forGetter((generator) -> generator.getBiomeSource())
             ).apply(instance, instance.stable(VoidChunkGenerator::new)));
 
     public VoidChunkGenerator(BiomeSource biomeSource) {
