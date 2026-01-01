@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
         maven { url "https://maven.fabricmc.net/" }
-        maven { url "https://maven.architectury.dev/" }
         gradlePluginPortal()
     }
 }
-rootProject.name = "SkyblockSingle"
+rootProject.name = "hypixel-skyblock-fabric"
+include("skyblock-api", "skyblock-core", "skyblock-stats", "skyblock-items", "skyblock-ui")
