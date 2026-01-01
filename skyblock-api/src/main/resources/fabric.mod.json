@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "skyblock-api",
+  "version": "${version}",
+  "name": "SkyBlock API",
+  "description": "Shared API for SkyBlock Mods",
+  "authors": ["Developer"],
+  "contact": {},
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.sb.api.SkyBlockAPI"
+    ]
+  }
+}
