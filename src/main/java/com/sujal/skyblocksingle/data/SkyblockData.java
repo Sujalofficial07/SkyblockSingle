@@ -20,9 +20,10 @@ public class SkyblockData extends PersistentState {
 
     public static SkyblockData getServerState(ServerWorld world) {
         ServerWorld serverWorld = world.getServer().getWorld(World.OVERWORLD);
-        // Using TypeAware factory for 1.20+
+        
+        // FIX: Used PersistentState.Type explicitly to fix compilation error
         return serverWorld.getPersistentStateManager().getOrCreate(
-                new Type<>(SkyblockData::new, SkyblockData::createFromNbt, null),
+                new PersistentState.Type<>(SkyblockData::new, SkyblockData::createFromNbt, null),
                 DATA_ID
         );
     }
