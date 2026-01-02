@@ -1,0 +1,10 @@
+dependencies {
+    implementation project(":skyblock-api")
+    include project(":skyblock-api")
+
+    implementation project(":skyblock-stats")
+    include project(":skyblock-stats") // Stats access karne ke liye
+    
+    // Vanilla Text rendering ke liye
+    implementation "net.fabricmc.fabric-api:fabric-api:0.91.0+1.20.1" 
+}
