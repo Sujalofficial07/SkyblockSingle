@@ -1,3 +1,12 @@
+"entrypoints": {
+  "main": [
+    "com.sb.stats.SkyBlockStatsMod"
+  ],
+  "cardinal-components": [
+    "com.sb.stats.SkyBlockStatsMod"
+  ]
+}
+
 {
   "schemaVersion": 1,
   "id": "skyblock-stats",
