@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "skyblock-core",
+  "version": "${version}",
+  "name": "SkyBlock Core",
+  "description": "Core Logic for SkyBlock",
+  "depends": {
+    "skyblock-api": "*"
+  },
+  "entrypoints": {
+    "main": [
+      "com.sb.core.SkyBlockCore"
+    ]
+  }
+}
