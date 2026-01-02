@@ -5,6 +5,7 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -15,19 +16,27 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Grant execute permission for gradlew
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Make gradlew executable
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build
+        uses: gradle/gradle-build-action@v4
+        with:
+          arguments: build
 
-      - name: Upload Artifacts (Jars)
+      - name: Upload Artifacts (All Mods)
         uses: actions/upload-artifact@v4
         with:
-          name: SkyBlock-Mods
+          name: SkyBlock-Modpack
           path: |
-            skyblock-core/build/libs/*.jar
-            skyblock-stats/build/libs/*.jar
-            skyblock-items/build/libs/*.jar
-            # Add other paths
+            skyblock-core/build/libs/*-1.0.0.jar
+            skyblock-stats/build/libs/*-1.0.0.jar
+            skyblock-items/build/libs/*-1.0.0.jar
+            skyblock-api/build/libs/*-1.0.0.jar
+            skyblock-ui/build/libs/*-1.0.0.jar
+            # Note: Maine '*-1.0.0.jar' use kiya hai taaki '-sources.jar' ya '-dev.jar' upload na ho.
+            # Agar version change ho toh '*.jar' use kar lena.
             
