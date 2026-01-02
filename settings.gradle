@@ -10,3 +10,4 @@ rootProject.name = "hypixel-skyblock-fabric"
 // Humare modules
 include("skyblock-api")
 include("skyblock-core")
+include(":skyblock-items")
