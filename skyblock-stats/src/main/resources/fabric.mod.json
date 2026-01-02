@@ -18,7 +18,8 @@
   },
   "custom": {
     "cardinal-components": [
-      "skyblock-stats:player_stats"
+      "skyblock-stats:player_stats",
+      "skyblock-stats:skills"
     ]
   },
   "depends": {
