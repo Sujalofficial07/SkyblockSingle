@@ -3,7 +3,7 @@ package com.sb.stats.mixin;
 import com.sb.api.stats.IPlayerStats;
 import com.sb.api.stats.SBStat;
 import com.sb.api.utils.SBConstants;
-import com.sb.stats.SkyBlockStatsMod;
+import com.sb.stats.SkyBlockStatsComponents;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -34,7 +34,7 @@ public class DamageMixin {
     // Custom Helper Method to keep code clean
     private double calculateHypixelDamage(PlayerEntity player) {
         // 1. Get Stats
-        IPlayerStats stats = SkyBlockStatsMod.PLAYER_STATS.get(player);
+        IPlayerStats stats = SkyBlockStatsComponents.PLAYER_STATS.get(player);
         double baseStrength = stats.getBaseStat(SBStat.STRENGTH);
         double critChance = stats.getBaseStat(SBStat.CRIT_CHANCE);
         double critDamagePct = stats.getBaseStat(SBStat.CRIT_DAMAGE);
