@@ -1,0 +1,4 @@
+dependencies {
+    implementation project(":skyblock-api")
+    include project(":skyblock-api")
+}
