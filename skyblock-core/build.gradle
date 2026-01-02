@@ -1,0 +1,6 @@
+dependencies {
+    // Core depends on API
+    implementation project(":skyblock-api")
+    // 'include' ensures API is available at runtime in dev env
+    include project(":skyblock-api") 
+}
