@@ -2,7 +2,7 @@ package com.sb.ui.hud;
 
 import com.sb.api.stats.IPlayerStats;
 import com.sb.api.stats.SBStat;
-import com.sb.stats.SkyBlockStatsMod; // Access key
+import com.sb.stats.SkyBlockStatsComponents; // Access key
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -23,7 +23,7 @@ public class ActionBarHud implements HudRenderCallback {
         // 1. Get Stats Data
         // Note: Client side par data sync hona zaroori hai. 
         // Cardinal Components auto-sync karta hai agar configured ho.
-        IPlayerStats stats = SkyBlockStatsMod.PLAYER_STATS.get(player);
+        IPlayerStats stats = SkyBlockStatsComponents.PLAYER_STATS.get(player);
 
         double currentHealth = player.getHealth() * 5; // Vanilla 20HP -> 100HP scale
         double maxHealth = stats.getBaseStat(SBStat.HEALTH); // Base stat from our mod
