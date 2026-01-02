@@ -1,4 +1,8 @@
 dependencies {
+    // ... existing ...
     implementation project(":skyblock-api")
-    include project(":skyblock-api")
+    
+    // ✅ ADD THIS: Items mod needs Stats code for the GUI
+    implementation project(":skyblock-stats")
+    include project(":skyblock-stats") 
 }
