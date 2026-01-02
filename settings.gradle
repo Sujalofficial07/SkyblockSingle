@@ -1,13 +1,20 @@
 pluginManagement {
     repositories {
+        // Standard libraries (Gson, Guava) ke liye zaroori hai
+        mavenCentral()
+        
+        // Fabric specific plugins ke liye
         maven { url "https://maven.fabricmc.net/" }
+        
+        // Gradle ke apne plugins
         gradlePluginPortal()
     }
 }
 
 rootProject.name = "hypixel-skyblock-fabric"
 
-// Humare modules
 include("skyblock-api")
 include("skyblock-core")
+include("skyblock-stats")
 include("skyblock-items")
+include("skyblock-ui")
