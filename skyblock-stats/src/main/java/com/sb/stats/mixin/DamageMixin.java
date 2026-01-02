@@ -5,24 +5,35 @@ import com.sb.api.stats.SBStat;
 import com.sb.api.utils.SBConstants;
 import com.sb.stats.SkyBlockStatsMod;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(PlayerEntity.class)
 public class DamageMixin {
 
-    // ✅ FIX: Correct Signature for 1.20.1
-    // Method: public float getDamageAgainst(Entity target)
-    @Inject(method = "getDamageAgainst", at = @At("HEAD"), cancellable = true)
-    private void calculateHypixelDamage(Entity target, CallbackInfoReturnable<Float> cir) {
-        PlayerEntity player = (PlayerEntity) (Object) this;
+    // ✅ FIX: We redirect the "getAttributeValue" call inside the "attack" method.
+    // Jab game puchega "Player ka damage kitna hai?", hum apna Hypixel damage return karenge.
+    @Redirect(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getAttributeValue(Lnet/minecraft/entity/attribute/EntityAttribute;)D"))
+    private double overrideAttackDamage(PlayerEntity player, EntityAttribute attribute) {
+        
+        // Agar game Damage maang raha hai, toh hum apna logic lagayenge
+        if (attribute == EntityAttributes.GENERIC_ATTACK_DAMAGE) {
+            return calculateHypixelDamage(player);
+        }
 
-        // 1. Get Stats (API Check)
+        // Kisi aur attribute ke liye (Speed, Health), vanilla logic chalne do
+        return player.getAttributeValue(attribute);
+    }
+
+    // Custom Helper Method to keep code clean
+    private double calculateHypixelDamage(PlayerEntity player) {
+        // 1. Get Stats
         IPlayerStats stats = SkyBlockStatsMod.PLAYER_STATS.get(player);
         double baseStrength = stats.getBaseStat(SBStat.STRENGTH);
         double critChance = stats.getBaseStat(SBStat.CRIT_CHANCE);
@@ -47,11 +58,11 @@ public class DamageMixin {
         boolean isCrit = Math.random() * 100 < critChance;
         if (isCrit) {
             finalDamage *= (1 + (critDamagePct / 100.0));
-            // Crit Particles
-            player.onCrit(target);
+            
+            // ✅ FIX: Correct method name for 1.20.1
+            player.addCritParticles(player.getAttacking()); 
         }
 
-        // 5. Return Damage
-        cir.setReturnValue((float) finalDamage);
+        return finalDamage;
     }
 }
