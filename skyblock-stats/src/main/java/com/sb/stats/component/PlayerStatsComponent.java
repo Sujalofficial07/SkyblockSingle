@@ -1,9 +1,8 @@
 package com.sb.stats.component;
 
-// ✅ Ensure API Imports exist
-import com.sb.api.stats.IPlayerStats; 
-import com.sb.api.stats.SBStat; 
-import com.sb.stats.SkyBlockStatsMod;
+import com.sb.api.stats.IPlayerStats;
+import com.sb.api.stats.SBStat;
+import com.sb.stats.SkyBlockStatsComponents; // ✅ New Import
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -11,7 +10,6 @@ import net.minecraft.nbt.NbtCompound;
 import java.util.HashMap;
 import java.util.Map;
 
-// Interface implementation check karo
 public class PlayerStatsComponent implements IPlayerStats, AutoSyncedComponent {
     private final PlayerEntity player;
     private final Map<SBStat, Double> stats = new HashMap<>();
@@ -19,7 +17,6 @@ public class PlayerStatsComponent implements IPlayerStats, AutoSyncedComponent {
 
     public PlayerStatsComponent(PlayerEntity player) {
         this.player = player;
-        // Default Stats
         stats.put(SBStat.HEALTH, 100.0);
         stats.put(SBStat.DEFENSE, 0.0);
         stats.put(SBStat.STRENGTH, 0.0);
@@ -47,7 +44,8 @@ public class PlayerStatsComponent implements IPlayerStats, AutoSyncedComponent {
     @Override
     public void consumeMana(double amount) {
         this.currentMana = Math.max(0, currentMana - amount);
-        SkyBlockStatsMod.PLAYER_STATS.sync(player);
+        // ✅ FIX: Use SkyBlockStatsComponents
+        SkyBlockStatsComponents.PLAYER_STATS.sync(player);
     }
 
     @Override
@@ -61,7 +59,8 @@ public class PlayerStatsComponent implements IPlayerStats, AutoSyncedComponent {
         double regenAmount = maxMana * 0.02;
         if (currentMana < maxMana) {
             currentMana = Math.min(maxMana, currentMana + regenAmount);
-            SkyBlockStatsMod.PLAYER_STATS.sync(player);
+            // ✅ FIX: Use SkyBlockStatsComponents
+            SkyBlockStatsComponents.PLAYER_STATS.sync(player);
         }
     }
 
