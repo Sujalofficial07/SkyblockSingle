@@ -1,5 +1,6 @@
 plugins {
-    id 'fabric-loom' version '1.5-SNAPSHOT' apply false
+        // ✅ UPDATE: Use 1.7-SNAPSHOT (Newer & More Stable)
+    id 'fabric-loom' version '1.7-SNAPSHOT' apply false
 }
 
 subprojects {
