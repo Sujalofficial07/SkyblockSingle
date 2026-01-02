@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "skyblock-items",
+  "version": "${version}",
+  "name": "SkyBlock Items",
+  "description": "Custom Items and Rarity System",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.sb.items.SkyBlockItems"
+    ],
+    "client": [
+      "com.sb.items.SkyBlockItems"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*",
+    "skyblock-api": "*"
+  }
+}
