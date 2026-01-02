@@ -5,7 +5,6 @@ import com.sb.api.stats.SBStat;
 import com.sb.api.utils.SBConstants;
 import com.sb.stats.SkyBlockStatsMod;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.group.EntityGroup; // Needed for signature
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
@@ -17,13 +16,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public class DamageMixin {
 
-    // ✅ FIX: Target 'getDamageAgainst' instead of 'getAttackDamage'
-    // Signature: (Entity target, float damage) -> float
+    // ✅ FIX: Correct Signature for 1.20.1
+    // Method: public float getDamageAgainst(Entity target)
     @Inject(method = "getDamageAgainst", at = @At("HEAD"), cancellable = true)
-    private void calculateHypixelDamage(Entity target, float damageBonus, CallbackInfoReturnable<Float> cir) {
+    private void calculateHypixelDamage(Entity target, CallbackInfoReturnable<Float> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
 
-        // 1. Get Stats
+        // 1. Get Stats (API Check)
         IPlayerStats stats = SkyBlockStatsMod.PLAYER_STATS.get(player);
         double baseStrength = stats.getBaseStat(SBStat.STRENGTH);
         double critChance = stats.getBaseStat(SBStat.CRIT_CHANCE);
@@ -48,10 +47,11 @@ public class DamageMixin {
         boolean isCrit = Math.random() * 100 < critChance;
         if (isCrit) {
             finalDamage *= (1 + (critDamagePct / 100.0));
-            player.onCrit(target); 
+            // Crit Particles
+            player.onCrit(target);
         }
 
-        // 5. Return Damage (Overwrite Vanilla)
+        // 5. Return Damage
         cir.setReturnValue((float) finalDamage);
     }
 }
