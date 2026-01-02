@@ -1,11 +1,8 @@
-// Path: skyblock-stats/src/main/java/com/sb/stats/mixin/DamageMixin.java
 package com.sb.stats.mixin;
 
-import com.sb.api.stats.IPlayerStats; // From API mod
-import com.sb.stats.registry.StatsComponents; // Registry
+import com.sb.api.stats.SBStat;
+import com.sb.stats.SkyBlockStatsMod;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,32 +11,29 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public class DamageMixin {
 
-    @Inject(method = "getAttackDamage", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "getAttackDamage", at = @At("HEAD"), cancellable = true)
     private void calculateHypixelDamage(float target, float cooldown, CallbackInfoReturnable<Float> cir) {
         PlayerEntity player = (PlayerEntity) (Object) this;
+
+        // 1. Get Stats
+        double strength = SkyBlockStatsMod.PLAYER_STATS.get(player).getBaseStat(SBStat.STRENGTH);
+        double critChance = SkyBlockStatsMod.PLAYER_STATS.get(player).getBaseStat(SBStat.CRIT_CHANCE);
+        double critDmg = SkyBlockStatsMod.PLAYER_STATS.get(player).getBaseStat(SBStat.CRIT_DAMAGE);
         
-        // 1. Get Player Base Stats (Profile)
-        IPlayerStats stats = player.getComponent(StatsComponents.PLAYER_STATS);
-        double strength = stats.getStrength();
-        double critDmg = stats.getCritDamage();
+        // 2. Weapon Damage (Abhi ke liye 0, baad mein Item Mod se layenge)
+        double weaponDamage = 0; // TODO: Get from Held Item NBT
         
-        // 2. Get Held Item Stats
-        ItemStack heldItem = player.getMainHandStack();
-        double weaponDamage = 0;
+        // 3. Base Calculation
+        double baseDamage = (5 + weaponDamage) * (1 + (strength / 100.0));
         
-        if (heldItem.hasNbt() && heldItem.getNbt().contains("SkyBlockData")) {
-            NbtCompound sbData = heldItem.getNbt().getCompound("SkyBlockData");
-            weaponDamage = sbData.getInt("DAMAGE");
-            strength += sbData.getInt("STRENGTH"); // Add weapon strength
+        // 4. Crit Logic
+        boolean isCrit = Math.random() * 100 < critChance;
+        if (isCrit) {
+            baseDamage *= (1 + (critDmg / 100.0));
+            // Optional: Add particle effect or sound here
         }
 
-        // 3. Hypixel Formula
-        // Damage = (5 + WeaponDamage) * (1 + Strength/100) * (1 + CritDamage/100 [if crit])
-        
-        double finalDamage = (5 + weaponDamage) * (1 + (strength / 100.0));
-        
-        // (Crit logic yahan add hoga)
-        
-        cir.setReturnValue((float) finalDamage);
+        // Vanilla logic bypass karke apna damage return karo
+        cir.setReturnValue((float) baseDamage);
     }
 }
