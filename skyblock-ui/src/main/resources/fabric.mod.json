@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "skyblock-ui",
+  "version": "${version}",
+  "name": "SkyBlock UI",
+  "description": "HUDs and Menus",
+  "depends": {
+    "skyblock-api": "*",
+    "skyblock-stats": "*"
+  },
+  "entrypoints": {
+    "client": [
+      "com.sb.ui.SkyBlockUI"
+    ]
+  }
+}
